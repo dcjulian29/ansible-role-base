@@ -13,9 +13,6 @@ base_logging_rules: []
 #   facility: "auth,authpriv"
 #   level: "*"
 base_logging_service: rsyslog
-base_roles:
-  - logging_syslog_forward
-  - identity
 base_roles_minimal:
   - apt_sources
   - timezone
