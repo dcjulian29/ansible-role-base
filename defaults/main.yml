@@ -1,0 +1,23 @@
+---
+base_additional_packages: []
+base_fail2ban_enabled: false
+base_fail2ban_custom_configuration_template: "jail.local.j2"
+base_roles:
+  - logging_syslog_forward
+  - identity
+base_roles_minimal:
+  - apt_sources
+  - timezone
+  - julian_ca
+base_ssh_challenge_response_auth: "no"
+base_ssh_gss_api_authentication: "no"
+base_ssh_password_authentication: "no"
+base_ssh_permit_empty_password: "no"
+base_ssh_permit_root_login: "no"
+base_ssh_port: 22
+base_ssh_restart_handler_state: restarted
+base_ssh_state: started
+base_ssh_usedns: "no"
+base_ssh_x11_forwarding: "no"
+base_sudoers_nopassword: []
+base_sudoers_password: []
