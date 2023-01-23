@@ -1,0 +1,30 @@
+---
+dependencies: []
+galaxy_info:
+  author: Julian Easterling
+  description: Ansible role to do the basic setup I expect from every system I manage.
+  galaxy_tags:
+    - system
+    - dcjulian29
+    - base
+  license: Apache-2.0
+  min_ansible_version: 2.13.7
+  namespace: dcjulian29
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - buster
+    - name: Ubuntu
+      versions:
+        - jammy
+        - focal
+    - name: Fedora
+      versions:
+        - "36"
+        - "35"
+    - name: EL
+      versions:
+        - "9"
+        - "8"
+  role_name: base
