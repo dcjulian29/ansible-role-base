@@ -1,0 +1,4 @@
+---
+- name: Enable Syslog logging forwarding rules if needed
+  ansible.builtin.include_tasks: syslog.yml
+  when: base_logging_rules | length > 0

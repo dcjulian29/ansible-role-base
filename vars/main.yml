@@ -5,7 +5,6 @@ redhat_base_packages:
   - which
   - gnupg
   - openssl
-  - rsyslog
   - logrotate
   - nfs-utils
 debian_base_packages:

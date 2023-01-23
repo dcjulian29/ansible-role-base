@@ -2,6 +2,17 @@
 base_additional_packages: []
 base_fail2ban_enabled: false
 base_fail2ban_custom_configuration_template: "jail.local.j2"
+base_logging_package: rsyslog
+base_logging_rules: []
+# - fqdn: syslog.example.com
+#   port: 8514
+#   facility: "*"
+#   level: "*"
+# - fqdn: auth.syslog.example.com
+#   port: 514
+#   facility: "auth,authpriv"
+#   level: "*"
+base_logging_service: rsyslog
 base_roles:
   - logging_syslog_forward
   - identity

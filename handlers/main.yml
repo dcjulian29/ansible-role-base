@@ -4,5 +4,10 @@
     name: "{{ security_ssh_name }}"
     state: "{{ security_ssh_restart_handler_state }}"
 
+- name: Restart Syslog
+  ansible.builtin.service:
+    name: "{{ base_logging_service }}"
+    state: restarted
+
 - name: Update GRUB
   ansible.builtin.shell: /usr/sbin/update-grub

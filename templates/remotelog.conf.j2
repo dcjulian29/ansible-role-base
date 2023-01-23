@@ -1,0 +1,3 @@
+{% for rule in base_logging_rules %}
+{{ rule.facility }}.{{ rule.level }} @{{ rule.fqdn }}:{{ rule.port }}
+{% endfor %}
