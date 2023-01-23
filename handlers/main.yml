@@ -1,0 +1,8 @@
+---
+- name: Restart SSH
+  ansible.builtin.service:
+    name: "{{ security_ssh_name }}"
+    state: "{{ security_ssh_restart_handler_state }}"
+
+- name: Update GRUB
+  ansible.builtin.shell: /usr/sbin/update-grub
