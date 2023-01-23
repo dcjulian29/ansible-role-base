@@ -1,4 +1,44 @@
 ---
+- name: Ensure my aliases are present
+  ansible.builtin.copy:
+    src: myaliases.sh
+    dest: /etc/profile.d/myaliases.sh
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  tags:
+    - minimal
+
+- name: Ensure my custom functions are present
+  ansible.builtin.copy:
+    src: myfunctions.sh
+    dest: /etc/profile.d/myfunctions.sh
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  tags:
+    - minimal
+
+- name: Ensure my prompt is configured
+  ansible.builtin.copy:
+    src: myprompt.sh
+    dest: /etc/profile.d/myprompt.sh
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  tags:
+    - minimal
+
+- name: Ensure local bin in path is configured
+  ansible.builtin.copy:
+    src: localbin.sh
+    dest: /etc/profile.d/localbin.sh
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  tags:
+    - minimal
+
 - name: Enable Syslog logging forwarding rules if needed
   ansible.builtin.include_tasks: syslog.yml
   when: base_logging_rules | length > 0
