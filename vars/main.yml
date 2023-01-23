@@ -1,0 +1,19 @@
+---
+redhat_base_packages:
+  - sudo
+  - vim-enhanced
+  - which
+  - gnupg
+  - openssl
+  - rsyslog
+  - logrotate
+  - nfs-utils
+debian_base_packages:
+  - curl
+  - gnupg-agent
+  - software-properties-common
+  - net-tools
+  - openssh-server
+  - colordiff
+  - nfs-common
+  - acl
