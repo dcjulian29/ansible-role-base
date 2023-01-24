@@ -93,3 +93,6 @@
     value: 0
     state: present
     reload: true
+
+- name: Ensure OpenSSH is configured appropriately
+  ansible.builtin.include_tasks: ssh.yml

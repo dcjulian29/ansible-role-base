@@ -43,8 +43,6 @@ base_ssh_password_authentication: "no"
 base_ssh_permit_empty_password: "no"
 base_ssh_permit_root_login: "no"
 base_ssh_port: 22
-base_ssh_restart_handler_state: restarted
-base_ssh_state: started
 base_ssh_usedns: "no"
 base_ssh_x11_forwarding: "no"
 base_sudoers_nopassword: []
