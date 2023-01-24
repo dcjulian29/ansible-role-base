@@ -3,6 +3,8 @@
     "cmdline",
     "dcjulian",
     "dpkg",
+    "enablerepo",
+    "epel",
     "GSSAPI",
     "julianca",
     "lineinfile",

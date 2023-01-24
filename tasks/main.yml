@@ -99,3 +99,7 @@
 
 - name: Ensure Sudoers configuration is correct
   ansible.builtin.include_tasks: sudo.yml
+
+- name: When fail2ban is needed, ensure tasks play
+  ansible.builtin.include_tasks: fail2ban.yml
+  when: base_fail2ban_enabled | bool
