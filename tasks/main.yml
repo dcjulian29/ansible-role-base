@@ -96,3 +96,6 @@
 
 - name: Ensure OpenSSH is configured appropriately
   ansible.builtin.include_tasks: ssh.yml
+
+- name: Ensure Sudoers configuration is correct
+  ansible.builtin.include_tasks: sudo.yml

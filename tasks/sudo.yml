@@ -1,0 +1,22 @@
+---
+- name: Ensure configured user accounts to password-less sudoers
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    regexp: '^{{ item }}'
+    line: '{{ item }} ALL=(ALL) NOPASSWD: ALL'
+    state: present
+    validate: 'visudo -cf %s'
+    mode: "0644"
+  loop: "{{ base_sudoers_nopassword }}"
+  when: base_sudoers_nopassword | length > 0
+
+- name: Ensure configured user accounts are password-based sudoers
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    regexp: '^{{ item }}'
+    line: '{{ item }} ALL=(ALL) ALL'
+    state: present
+    validate: 'visudo -cf %s'
+    mode: 0644
+  with_items: "{{ base_sudoers_password }}"
+  when: base_sudoers_password | length > 0
