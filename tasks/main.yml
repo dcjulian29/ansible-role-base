@@ -69,3 +69,11 @@
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
   tags:
     - minimal
+
+- name: Include tasks for virtualized guests
+  ansible.builtin.include_tasks: hypervisor.yml
+  when:
+    - ansible_bios_version is match("Hyper-V UEFI") or
+      ansible_bios_version is match("VirtualBox") or
+      ansible_bios_vendor is match("SeaBIOS") or
+      ansible_bios_vendor is match("OVMF")

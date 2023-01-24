@@ -9,8 +9,10 @@
     "myfunctions",
     "myprompt",
     "nopassword",
+    "OVMF",
     "rsyslog",
     "TZDATA",
+    "UEFI",
     "unmark",
     "usedns"
   ]
