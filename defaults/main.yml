@@ -15,6 +15,15 @@ base_apt_types:
   - deb
 # - deb-src
 base_apt_url: ''  # If not set via group or host, distribution default is used
+base_certauth:
+  - name: julian_root.crt
+    url: https://julianscorner.com/dl/ca/julianca.crt
+  - name: julian_intermediate.crt
+    url: https://julianscorner.com/dl/c/intermediate.crt
+  - name: julian_acme.crt
+    url: https://julianscorner.com/dl/c/acme_ca.crt
+  - name: julian_jnet.crt
+    url: https://julianscorner.com/dl/c/jnet_ca.crt
 base_fail2ban_enabled: false
 base_fail2ban_custom_configuration_template: "jail.local.j2"
 base_logging_package: rsyslog
@@ -28,8 +37,6 @@ base_logging_rules: []
 #   facility: "auth,authpriv"
 #   level: "*"
 base_logging_service: rsyslog
-base_roles_minimal:
-  - julian_ca
 base_ssh_challenge_response_auth: "no"
 base_ssh_gss_api_authentication: "no"
 base_ssh_password_authentication: "no"

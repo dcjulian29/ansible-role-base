@@ -50,6 +50,12 @@
   tags:
     - minimal
 
+- name: Ensure my certificate authority is configured
+  ansible.builtin.include_tasks: certauth.yml
+  tags:
+    - minimal
+  when: base_certauth | length > 0
+
 - name: Enable Syslog logging forwarding rules if needed
   ansible.builtin.include_tasks: syslog.yml
   when: base_logging_rules | length > 0

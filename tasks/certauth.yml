@@ -1,0 +1,46 @@
+---
+- name: Install CA package on RedHat-based systems.
+  ansible.builtin.yum:
+    name: ca-certificates
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags:
+    - minimal
+
+- name: Install CA package on Debian-based systems.
+  ansible.builtin.apt:
+    name: ca-certificates
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Debian"
+  tags:
+    - minimal
+
+- name: Ensure certificate authority file is present
+  ansible.builtin.get_url:
+    dest: "{{ ca_path[ansible_os_family] }}/{{ item.name }}"
+    group: root
+    mode: '0444'
+    owner: root
+    url: "{{ item.url }}"
+  loop: base_certauth
+  tags:
+    - minimal
+
+- name: Update trusted CAs for Debian-based systems.
+  ansible.builtin.command: /usr/sbin/update-ca-certificates
+  changed_when: false
+  when:
+    - not ansible_check_mode
+    - ansible_os_family == "Debian"
+  tags:
+    - minimal
+
+- name: Update trusted CAs for RedHat-based systems.
+  ansible.builtin.command: /bin/update-ca-trust
+  changed_when: false
+  when:
+    - not ansible_check_mode
+    - ansible_os_family == "RedHat"
+  tags:
+    - minimal

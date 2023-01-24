@@ -1,4 +1,7 @@
 ---
+ca_path:
+  RedHat: "/etc/pki/ca-trust/source/anchors"
+  Debian: "/usr/local/share/ca-certificates"
 redhat_base_packages:
   - sudo
   - vim-enhanced
