@@ -45,6 +45,11 @@
     - ansible_pkg_mgr == 'apt'
     - base_apt_overwrite
 
+- name: Ensure Timezone is configured
+  ansible.builtin.include_tasks: timezone.yml
+  tags:
+    - minimal
+
 - name: Enable Syslog logging forwarding rules if needed
   ansible.builtin.include_tasks: syslog.yml
   when: base_logging_rules | length > 0

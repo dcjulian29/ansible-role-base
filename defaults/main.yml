@@ -29,7 +29,6 @@ base_logging_rules: []
 #   level: "*"
 base_logging_service: rsyslog
 base_roles_minimal:
-  - timezone
   - julian_ca
 base_ssh_challenge_response_auth: "no"
 base_ssh_gss_api_authentication: "no"
@@ -43,3 +42,4 @@ base_ssh_usedns: "no"
 base_ssh_x11_forwarding: "no"
 base_sudoers_nopassword: []
 base_sudoers_password: []
+base_timezone_name: America/New_York

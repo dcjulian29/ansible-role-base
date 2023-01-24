@@ -1,0 +1,39 @@
+---
+- name: Ensure that the TZDATA package is present
+  ansible.builtin.package:
+    name: tzdata
+    state: present
+
+- name: Update timezone file if needed
+  ansible.builtin.copy:
+    content: "{{ timezone_name }}\n"
+    dest: /etc/timezone
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - minimal
+
+- name: Ensure localtime file is not present
+  ansible.builtin.file:
+    path: /etc/localtime
+    state: absent
+  changed_when: false
+  when: not ansible_check_mode
+  tags:
+    - minimal
+
+- name: Reconfigure TZDATA on Debian-based systems
+  ansible.builtin.command: dpkg-reconfigure --frontend noninteractive tzdata
+  changed_when: false
+  when:
+    - not ansible_check_mode
+    - (ansible_os_family | lower) == 'debian'
+  tags:
+    - minimal
+
+- name: Ensure that the system is set to correct timezone
+  community.general.timezone:
+    name: "{{ timezone_name }}"
+  tags:
+    - minimal

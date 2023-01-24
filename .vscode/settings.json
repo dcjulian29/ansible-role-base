@@ -8,6 +8,7 @@
     "myprompt",
     "nopassword",
     "rsyslog",
+    "TZDATA",
     "unmark",
     "usedns"
   ]
