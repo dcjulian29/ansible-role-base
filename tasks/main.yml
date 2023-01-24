@@ -77,3 +77,12 @@
       ansible_bios_version is match("VirtualBox") or
       ansible_bios_vendor is match("SeaBIOS") or
       ansible_bios_vendor is match("OVMF")
+
+- name: Ensure additional packages are installed.
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ base_additional_packages }}"
+  when: base_additional_packages | length > 0
+  tags:
+    - minimal
