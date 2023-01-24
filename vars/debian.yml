@@ -1,4 +1,13 @@
 ---
+base_packages:
+  - curl
+  - gnupg-agent
+  - software-properties-common
+  - net-tools
+  - openssh-server
+  - colordiff
+  - nfs-common
+  - acl
 base_ssh_config_path: /etc/ssh/sshd_config
 base_ssh_name: ssh
 ca_path: /usr/local/share/ca-certificates
