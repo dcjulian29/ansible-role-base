@@ -16,3 +16,14 @@ debian_base_packages:
   - colordiff
   - nfs-common
   - acl
+debian_apt_components:
+  - main
+  - contrib
+  - non-free
+debian_apt_url: http://deb.debian.org
+ubuntu_apt_components:
+  - main
+  - multiverse
+  - restricted
+  - universe
+ubuntu_apt_url: http://us.archive.ubuntu.com

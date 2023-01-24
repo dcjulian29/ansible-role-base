@@ -39,6 +39,12 @@
   tags:
     - minimal
 
+- name: Enable APT sources for Debian based systems if needed
+  ansible.builtin.include_tasks: apt_sources.yml
+  when:
+    - ansible_pkg_mgr == 'apt'
+    - base_apt_overwrite
+
 - name: Enable Syslog logging forwarding rules if needed
   ansible.builtin.include_tasks: syslog.yml
   when: base_logging_rules | length > 0
