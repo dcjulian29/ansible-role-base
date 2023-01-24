@@ -86,3 +86,10 @@
   when: base_additional_packages | length > 0
   tags:
     - minimal
+
+- name: Ensure SWAP space is used last in memory operations.
+  ansible.posix.sysctl:
+    name: vm.swappiness
+    value: 0
+    state: present
+    reload: true
