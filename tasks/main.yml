@@ -64,3 +64,8 @@
 - name: Enable Syslog logging forwarding rules if needed
   ansible.builtin.include_tasks: syslog.yml
   when: base_logging_rules | length > 0
+
+- name: Include OS-specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
+  tags:
+    - minimal
