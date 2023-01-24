@@ -1,4 +1,9 @@
 ---
+- name: Include OS-specific variables.
+  ansible.builtin.include_vars: "{{ ansible_os_family | lower }}.yml"
+  tags:
+    - minimal
+
 - name: Ensure my aliases are present
   ansible.builtin.copy:
     src: myaliases.sh

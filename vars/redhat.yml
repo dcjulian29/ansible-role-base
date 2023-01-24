@@ -1,3 +1,4 @@
 ---
 base_ssh_config_path: /etc/ssh/sshd_config
 base_ssh_name: sshd
+ca_path: /etc/pki/ca-trust/source/anchors

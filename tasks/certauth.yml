@@ -18,7 +18,7 @@
 
 - name: Ensure certificate authority file is present
   ansible.builtin.get_url:
-    dest: "{{ ca_path[ansible_os_family] }}/{{ item.name }}"
+    dest: "{{ ca_path }}/{{ item.name }}"
     group: root
     mode: '0444'
     owner: root
