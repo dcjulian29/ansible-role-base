@@ -32,10 +32,16 @@
       owner: root
       state: "{{ 'present' if base_apt_arch_i386 else 'absent' }}"
 
-  - name: Determine 'main' repository configuration
+  - name: Determine base prefix for repository configurations
     ansible.builtin.set_fact:
       source_base: "[trusted=yes] {{ base_apt_url }}"
+
+  - name: Determine common prefix for repository configurations
+    ansible.builtin.set_fact:
       source_common: "{{ source_base }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }}"
+
+  - name: Determine 'main' repository configuration
+    ansible.builtin.set_fact:
       sources_main:
         - "{{ item }} {{ source_common }} {{ base_apt_components | joi(' ') }}"
     loop: "{{ base_apt_types }}"
