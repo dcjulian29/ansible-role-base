@@ -23,7 +23,7 @@
     mode: '0444'
     owner: root
     url: "{{ item.url }}"
-  loop: base_certauth
+  loop: "{{ base_certauth }}"
   tags:
     - minimal
 

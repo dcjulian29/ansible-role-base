@@ -1,4 +1,5 @@
 ---
+base_apt_common: "{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }}"
 base_packages:
   - curl
   - gnupg-agent

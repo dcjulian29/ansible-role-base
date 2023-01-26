@@ -6,7 +6,7 @@
 
 - name: Update timezone file if needed
   ansible.builtin.copy:
-    content: "{{ timezone_name }}\n"
+    content: "{{ base_timezone_name }}\n"
     dest: /etc/timezone
     owner: root
     group: root
@@ -34,6 +34,6 @@
 
 - name: Ensure that the system is set to correct timezone
   community.general.timezone:
-    name: "{{ timezone_name }}"
+    name: "{{ base_timezone_name }}"
   tags:
     - minimal
