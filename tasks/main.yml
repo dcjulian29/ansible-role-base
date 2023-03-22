@@ -50,6 +50,11 @@
     - ansible_pkg_mgr == 'apt'
     - base_apt_overwrite
 
+- name: Ensure package cache is updated
+  ansible.builtin.include_tasks: package_update.yml
+  tags:
+    - minimal
+
 - name: Ensure Timezone is configured
   ansible.builtin.include_tasks: timezone.yml
   tags:
