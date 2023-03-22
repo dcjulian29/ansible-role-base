@@ -44,6 +44,9 @@
   notify: Update GRUB
   when: grub_cmdline_check.found == 0
 
+- name: Retrive service facts
+  ansible.builtin.service_facts:
+
 - name: Disable Hyper-V services on non-Hyper-V hypervisors.
   ansible.builtin.service:
     name: "{{ item }}"
@@ -51,4 +54,6 @@
     enabled: false
   with_items:
     - hv-kvp-daemon.service
-  when: ansible_bios_version is not match("Hyper-V UEFI")
+  when:
+    - ansible_bios_version is not match("Hyper-V UEFI")
+    - ansible_facts.services[item]is defined
