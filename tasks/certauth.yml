@@ -27,7 +27,7 @@
   tags:
     - minimal
   when:
-    - not ansible_check_mode # (Bug ansible/ansible#65687)
+    - not ansible_check_mode   # (Bug ansible/ansible#65687)
 
 - name: Update trusted CAs for Debian-based systems.
   ansible.builtin.command: /usr/sbin/update-ca-certificates
