@@ -1,0 +1,48 @@
+{
+	"name": "ansible-role-base",
+	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/ansible:2": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers-contrib/features/yamllint:2": {
+			"version": "latest"
+		},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest"
+    }
+	},
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "files.associations": {
+          "handlers/*.yml": "ansible",
+          "tasks/*.yml": "ansible",
+          "test/*.yml": "ansible"
+        },
+        "ansible.ansible.useFullyQualifiedCollectionNames": true,
+        "ansible.ansibleLint.enabled": true,
+        "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+        "editor.rulers": [
+          90,
+          120
+        ],
+        "yaml.yamlVersion": "1.2",
+        "yaml.format.enable": true,
+        "yaml.format.singleQuote": true,
+        "yaml.format.bracketSpacing": true,
+        "yaml.validate": true,
+        "yaml.completion": true,
+        "yaml.schemaStore.enable": true,
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+		"redhat.ansible",
+		"streetsidesoftware.code-spell-checker",
+		"editorconfig.editorconfig",
+    "samuelcolvin.jinjahtml"
+	]
+    }
+  },
+  "postCreateCommand": "pip install ansible-lint"
+}
