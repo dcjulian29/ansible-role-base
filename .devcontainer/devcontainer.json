@@ -16,12 +16,13 @@
     "vscode": {
       "settings": {
         "files.associations": {
-          "handlers/*.yml": "ansible",
-          "tasks/*.yml": "ansible",
-          "test/*.yml": "ansible"
+          "**/handlers/*.yml": "ansible",
+          "**/tasks/*.yml": "ansible",
+          "**/tests/*.yml": "ansible"
         },
         "ansible.ansible.useFullyQualifiedCollectionNames": true,
         "ansible.ansibleLint.enabled": true,
+        "ansible.python.interpreterPath": "/usr/bin/python3",
         "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
         "editor.rulers": [
           90,
