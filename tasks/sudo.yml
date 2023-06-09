@@ -17,6 +17,6 @@
     line: '{{ item }} ALL=(ALL) ALL'
     state: present
     validate: 'visudo -cf %s'
-    mode: 0644
+    mode: "0644"
   with_items: "{{ base_sudoers_password }}"
   when: base_sudoers_password | length > 0
