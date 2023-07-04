@@ -30,4 +30,6 @@ jobs:
           python3 -m pip install pip
           pip3 install ansible ansible-lint yamllint
 
+      - run: ansible-galaxy collection install -v -r requirements.yml
+
       - run: ansible-lint .
