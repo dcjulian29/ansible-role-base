@@ -24,8 +24,8 @@ base_certauth:
     url: https://julianscorner.com/dl/c/acme_ca.crt
   - name: julian_jnet.crt
     url: https://julianscorner.com/dl/c/jnet_ca.crt
-base_fail2ban_enabled: false
-base_fail2ban_custom_configuration_template: "jail.local.j2"
+base_kernel_package_install: []
+base_kernel_package_remove: []
 base_logging_package: rsyslog
 base_logging_rules: []
 # - fqdn: syslog.example.com

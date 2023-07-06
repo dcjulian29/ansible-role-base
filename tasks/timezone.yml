@@ -1,8 +1,12 @@
 ---
-- name: Ensure that the TZDATA package is present
+- name: Ensure that the TZDATA package is present on Debian-based systems
   ansible.builtin.package:
     name: tzdata
     state: present
+  when:
+    - (ansible_os_family | lower) == 'debian'
+  tags:
+    - minimal
 
 - name: Update timezone file if needed
   ansible.builtin.copy:

@@ -1,32 +1,19 @@
 ---
-- name: Include tasks specific to Ubuntu.
-  when: ansible_distribution == 'Ubuntu'
-  block:
-    - name: Ensure non-virtualization kernel packages are removed.
-      ansible.builtin.apt:
-        name: "{{ item }}"
-        autoremove: true
-        purge: true
-        state: absent
-      loop:
-        - linux-headers-generic
-        - linux-generic
-        - linux-tools-generic
-        - linux-cloud-tools-generic
-        - linux-firmware
+- name: Ensure virtualization kernel packages are installed
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ base_kernel_package_install }}"
+  notify: Update GRUB
 
-    - name: Ensure virtualization kernel packages are installed.
-      ansible.builtin.apt:
-        name: "{{ item }}"
-        install_recommends: true
-        state: present
-      loop:
-        - linux-virtual
-        - linux-tools-virtual
-        - linux-cloud-tools-virtual
-      notify: Update GRUB
+- name: Ensure non-virtualization kernel packages are removed
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ base_kernel_package_remove }}"
+  notify: Update GRUB
 
-- name: Check if NOOP scheduler is configured in the boot command.
+- name: Check if NOOP scheduler is configured in the boot command
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*elevator=noop'
@@ -35,7 +22,7 @@
   register: grub_cmdline_check
   changed_when: false
 
-- name: Ensure NOOP scheduler is used when running under virtualization.
+- name: Ensure NOOP scheduler is used when running under virtualization
   ansible.builtin.lineinfile:
     backrefs: true
     path: /etc/default/grub
@@ -47,7 +34,7 @@
 - name: Retrive service facts
   ansible.builtin.service_facts:
 
-- name: Disable Hyper-V services on non-Hyper-V hypervisors.
+- name: Disable Hyper-V services when not using a Hyper-V hypervisor
   ansible.builtin.service:
     name: "{{ item }}"
     state: stopped

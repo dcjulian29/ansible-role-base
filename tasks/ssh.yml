@@ -5,7 +5,7 @@
     name: "{{ base_ssh_name }}"
     state: started
 
-- name: Update SSH configuration to be more secure
+- name: Ensure SSH server configuration
   ansible.builtin.lineinfile:
     dest: "{{ base_ssh_config_path }}"
     regexp: "{{ item.regexp }}"

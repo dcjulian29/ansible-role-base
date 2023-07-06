@@ -22,16 +22,6 @@
 - name: Build 'base_apt_sources' if not supplied
   when: base_apt_sources | length == 0
   block:
-    - name: Update apt sources URL to distribution default if needed
-      ansible.builtin.set_fact:
-        base_apt_url: "{{ lookup('ansible.builtin.vars', (ansible_distribution | lower + '_apt_url')) }}"
-      when: base_apt_url | length == 0
-
-    - name: Update apt components to distribution default if needed
-      ansible.builtin.set_fact:
-        base_apt_components: "{{ lookup('ansible.builtin.vars', (ansible_distribution | lower + '_apt_components')) }}"
-      when: base_apt_components | length == 0
-
     - name: Determine common prefix for repository configurations
       ansible.builtin.set_fact:
         source_common: "[trusted=yes] {{ base_apt_url }}/{{ base_apt_common }}"
@@ -99,9 +89,3 @@
     mode: u=rw,g=r,o=r
     owner: root
     src: sources.list.j2
-
-- name: Update APT package cache
-  ansible.builtin.apt:
-    update_cache: true
-  changed_when: false
-  when: not ansible_check_mode

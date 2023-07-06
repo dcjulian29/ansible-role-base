@@ -1,79 +1,50 @@
 ---
 - name: Include OS-specific variables.
-  ansible.builtin.include_vars: "{{ ansible_os_family | lower }}.yml"
+  ansible.builtin.include_vars: "{{ lookup('ansible.builtin.first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_distribution | lower }}.yml"
+        - "{{ ansible_os_family | lower }}.yml"
+      paths:
+        - vars
   tags:
     - minimal
-
-- name: Ensure my aliases are present
-  ansible.builtin.copy:
-    src: myaliases.sh
-    dest: /etc/profile.d/myaliases.sh
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  tags:
-    - minimal
-
-- name: Ensure my custom functions are present
-  ansible.builtin.copy:
-    src: myfunctions.sh
-    dest: /etc/profile.d/myfunctions.sh
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  tags:
-    - minimal
-
-- name: Ensure my prompt is configured
-  ansible.builtin.copy:
-    src: myprompt.sh
-    dest: /etc/profile.d/myprompt.sh
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  tags:
-    - minimal
-
-- name: Ensure local bin in path is configured
-  ansible.builtin.copy:
-    src: localbin.sh
-    dest: /etc/profile.d/localbin.sh
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  tags:
-    - minimal
-
-- name: Enable APT sources for Debian based systems if needed
-  ansible.builtin.include_tasks: apt_sources.yml
-  when:
-    - ansible_pkg_mgr == 'apt'
-    - base_apt_overwrite
-
-- name: Ensure package cache is updated
-  ansible.builtin.include_tasks: package_update.yml
-  tags:
-    - minimal
-
-- name: Ensure Timezone is configured
-  ansible.builtin.include_tasks: timezone.yml
-  tags:
-    - minimal
-
-- name: Ensure my certificate authority is configured
-  ansible.builtin.include_tasks: certauth.yml
-  tags:
-    - minimal
-  when: base_certauth | length > 0
-
-- name: Enable Syslog logging forwarding rules if needed
-  ansible.builtin.include_tasks: syslog.yml
-  when: base_logging_rules | length > 0
 
 - name: Include OS-specific tasks
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
   tags:
     - minimal
+
+- name: Ensure custom profile scripts are present
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/profile.d/{{ item }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  loop:
+    - myaliases.sh
+    - myfunctions.sh
+    - myprompt.sh
+    - localbin.sh
+  tags:
+    - minimal
+
+- name: Ensure time zone is configured
+  ansible.builtin.include_tasks: timezone.yml
+  tags:
+    - minimal
+
+- name: Ensure certificate authority is configured
+  ansible.builtin.include_tasks: certauth.yml
+  tags:
+    - minimal
+  when: base_certauth | length > 0
+
+- name: Enable syslog logging forwarding rule
+  ansible.builtin.include_tasks: syslog.yml
+  when: base_logging_rules | length > 0
 
 - name: Include tasks for virtualized guests
   ansible.builtin.include_tasks: hypervisor.yml
@@ -83,7 +54,7 @@
       ansible_bios_vendor is match("SeaBIOS") or
       ansible_bios_vendor is match("OVMF")
 
-- name: Ensure additional packages are installed.
+- name: Ensure additional packages are installed
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
@@ -92,12 +63,8 @@
   tags:
     - minimal
 
-- name: Ensure SWAP space is used last in memory operations.
-  ansible.posix.sysctl:
-    name: vm.swappiness
-    value: 0
-    state: present
-    reload: true
+- name: Ensure sysctl is configured appropriately
+  ansible.builtin.include_tasks: sysctl.yml
 
 - name: Ensure OpenSSH is configured appropriately
   ansible.builtin.include_tasks: ssh.yml
@@ -105,6 +72,5 @@
 - name: Ensure Sudoers configuration is correct
   ansible.builtin.include_tasks: sudo.yml
 
-- name: When fail2ban is needed, ensure tasks play
-  ansible.builtin.include_tasks: fail2ban.yml
-  when: base_fail2ban_enabled | bool
+- name: Ensure all handlers run before continuing
+  ansible.builtin.meta: flush_handlers

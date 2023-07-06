@@ -2,19 +2,20 @@
 base_apt_common: "{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }}"
 base_apt_components:
   - main
-  - contrib
-  - non-free
-base_apt_url: http://deb.debian.org
+  - multiverse
+  - restricted
+  - universe
+base_apt_url: http://us.archive.ubuntu.com
+base_kernel_package_install:
+  - linux-image-generic
+  - linux-headers-generic
+  - linux-tools-generic
+  - linux-cloud-tools-generic
 base_packages:
   - curl
   - gnupg-agent
+  - software-properties-common
   - net-tools
-  - openssh-server
-  - colordiff
-  - nfs-common
-  - cifs-utils
-  - acl
-  - python3-cryptography
 base_ssh_config_path: /etc/ssh/sshd_config
 base_ssh_name: ssh
 base_update_trust_cert: /usr/sbin/update-ca-certificates

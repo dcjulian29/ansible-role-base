@@ -1,4 +1,8 @@
 ---
+- name: Reboot Host
+  ansible.builtin.reboot:
+    reboot_timeout: 600
+
 - name: Restart SSH
   ansible.builtin.service:
     name: "{{ base_ssh_name }}"
@@ -11,3 +15,4 @@
 
 - name: Update GRUB
   ansible.builtin.shell: /usr/sbin/update-grub
+  notify: Reboot Host
