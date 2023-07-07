@@ -47,4 +47,5 @@ base_ssh_usedns: "no"
 base_ssh_x11_forwarding: "no"
 base_sudoers_nopassword: []
 base_sudoers_password: []
+base_system_python_allow_pip: true
 base_timezone_name: America/New_York

@@ -54,3 +54,11 @@
     autoremove: true
   when:
     - not ansible_check_mode
+
+- name: Allow installing PIP packages to system Python
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /usr/lib/python3.11/EXTERNALLY-MANAGED
+  when: base_system_python_allow_pip
