@@ -62,3 +62,5 @@
   loop:
     - /usr/lib/python3.11/EXTERNALLY-MANAGED
   when: base_system_python_allow_pip
+  tags:
+    - minimal
