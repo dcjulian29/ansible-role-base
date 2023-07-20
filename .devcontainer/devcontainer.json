@@ -1,24 +1,19 @@
 {
-	"name": "ansible-role-base",
-	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
-	"features": {
-		"ghcr.io/devcontainers-contrib/features/ansible:2": {
-			"version": "latest"
-		},
-		"ghcr.io/devcontainers-contrib/features/yamllint:2": {
-			"version": "latest"
-		},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+  "name": "ansible-role-base",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
       "version": "latest"
     }
-	},
+  },
   "customizations": {
     "vscode": {
       "settings": {
         "files.associations": {
           "**/handlers/*.yml": "ansible",
           "**/tasks/*.yml": "ansible",
-          "**/tests/*.yml": "ansible"
+          "**/tests/*.yml": "ansible",
+          "**/examples/*.yml": "ansible"
         },
         "ansible.ansible.useFullyQualifiedCollectionNames": true,
         "ansible.ansibleLint.enabled": true,
@@ -38,12 +33,16 @@
         "terminal.integrated.defaultProfile.linux": "bash"
       },
       "extensions": [
-		"redhat.ansible",
-		"streetsidesoftware.code-spell-checker",
-		"editorconfig.editorconfig",
-    "samuelcolvin.jinjahtml"
-	]
+        "redhat.ansible",
+        "streetsidesoftware.code-spell-checker",
+        "editorconfig.editorconfig",
+        "samuelcolvin.jinjahtml"
+      ]
     }
   },
-  "postCreateCommand": "pip install ansible-lint"
+  "containerEnv": {
+    "ANSIBLE_CONFIG": "${containerWorkspaceFolder}/ansible.cfg",
+    "containerWorkspaceFolder": "${containerWorkspaceFolder}"
+  },
+  "postCreateCommand": "bash .devcontainer/install.sh"
 }
