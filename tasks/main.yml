@@ -11,36 +11,71 @@
   tags:
     - minimal
 
-- name: Include OS-specific tasks
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
+- name: Include package manager specific tasks
+  ansible.builtin.include_tasks: "pkg_{{ ansible_pkg_mgr | lower }}.yml"
+
+- name: Ensure base packages are installed
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ base_packages }}"
+  when: base_packages | length > 0
+
+- name: Ensure additional packages are installed
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ base_packages_additional }}"
+  when: base_packages_additional | length > 0
+
+- name: Allow installing PIP packages to system Python
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /usr/lib/python3.11/EXTERNALLY-MANAGED
+  when: base_system_python_allow_pip
   tags:
     - minimal
 
 - name: Ensure custom profile scripts are present
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "/etc/profile.d/{{ item }}"
-    owner: root
+  ansible.builtin.get_url:
+    dest: "/etc/profile.d/{{ item.name }}"
     group: root
-    mode: u=rw,g=r,o=r
-  loop:
-    - myaliases.sh
-    - myfunctions.sh
-    - myprompt.sh
-    - localbin.sh
-  tags:
-    - minimal
+    mode: "0444"
+    owner: root
+    url: "{{ item.url }}"
+  loop: "{{ base_profile_scripts }}"
+  when:
+    - base_profile_scripts | length > 0
+    - not ansible_check_mode   # (Bug ansible/ansible#65687)
 
 - name: Ensure time zone is configured
   ansible.builtin.include_tasks: timezone.yml
   tags:
     - minimal
 
-- name: Ensure certificate authority is configured
-  ansible.builtin.include_tasks: certauth.yml
+- name: Install CA certificate package
+  ansible.builtin.package:
+    name: ca-certificates
+    state: present
   tags:
     - minimal
-  when: base_certauth | length > 0
+
+- name: Ensure custom certificate authority files are present
+  ansible.builtin.get_url:
+    dest: "{{ base_ca_path }}/{{ item.name }}"
+    group: root
+    mode: "0444"
+    owner: root
+    url: "{{ item.url }}"
+  loop: "{{ base_certauth }}"
+  notify: Update trusted certificate authorities
+  tags:
+    - minimal
+  when:
+    - base_certauth | length > 0
+    - not ansible_check_mode   # (Bug ansible/ansible#65687)
 
 - name: Enable syslog logging forwarding rule
   ansible.builtin.include_tasks: syslog.yml
@@ -50,27 +85,42 @@
   ansible.builtin.include_tasks: hypervisor.yml
   when:
     - ansible_bios_version is match("Hyper-V UEFI") or
-      ansible_bios_version is match("VirtualBox") or
       ansible_bios_vendor is match("SeaBIOS") or
       ansible_bios_vendor is match("OVMF")
 
-- name: Ensure additional packages are installed
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ base_additional_packages }}"
-  when: base_additional_packages | length > 0
-  tags:
-    - minimal
-
 - name: Ensure sysctl is configured appropriately
-  ansible.builtin.include_tasks: sysctl.yml
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: true
+  loop: "{{ base_sysctl }}"
+  when: base_sysctl | length > 0
 
 - name: Ensure OpenSSH is configured appropriately
   ansible.builtin.include_tasks: ssh.yml
 
-- name: Ensure Sudoers configuration is correct
-  ansible.builtin.include_tasks: sudo.yml
+- name: Ensure configured user accounts to password-less sudoers
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    regexp: '^{{ item }}'
+    line: '{{ item }} ALL=(ALL) NOPASSWD: ALL'
+    state: present
+    validate: 'visudo -cf %s'
+    mode: "0644"
+  loop: "{{ base_sudoers_nopassword }}"
+  when: base_sudoers_nopassword | length > 0
+
+- name: Ensure configured user accounts are password-based sudoers
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    regexp: '^{{ item }}'
+    line: '{{ item }} ALL=(ALL) ALL'
+    state: present
+    validate: 'visudo -cf %s'
+    mode: "0644"
+  with_items: "{{ base_sudoers_password }}"
+  when: base_sudoers_password | length > 0
 
 - name: Ensure all handlers run before continuing
   ansible.builtin.meta: flush_handlers

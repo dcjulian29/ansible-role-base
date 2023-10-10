@@ -1,0 +1,61 @@
+---
+- name: Ensure x64 architecture is configured appropriately
+  ansible.builtin.lineinfile:
+    create: true
+    dest: /var/lib/dpkg/arch
+    group: root
+    line: amd64
+    mode: '0644'
+    owner: root
+    state: "{{ 'present' if base_apt_arch_x64 else 'absent' }}"
+
+- name: Ensure i386 architecture is configured appropriately
+  ansible.builtin.lineinfile:
+    create: true
+    dest: /var/lib/dpkg/arch
+    group: root
+    line: i386
+    mode: u=rw,g=r,o=r
+    owner: root
+    state: "{{ 'present' if base_apt_arch_i386 else 'absent' }}"
+
+- name: Ensure /etc/apt/sources.list is configured properly
+  ansible.builtin.template:
+    dest: /etc/apt/sources.list
+    group: root
+    mode: '0644'
+    owner: root
+    src: sources.list.j2
+  when: base_apt_sources | length > 0
+
+- name: Update APT cache
+  ansible.builtin.apt:
+    update_cache: true
+  changed_when: false
+  when:
+    - not ansible_check_mode
+
+- name: Ensure custom distribution packages are installed
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ base_packages_distribution }}"
+
+- name: Upgrade all packages
+  ansible.builtin.apt:
+    name: "*"
+    state: "{{ 'latest' }}"
+  when:
+    - not ansible_check_mode
+
+- name: Remove unused APT packages from the cache
+  ansible.builtin.apt:
+    autoclean: true
+  when:
+    - not ansible_check_mode
+
+- name: Remove APT packages that are no longer required
+  ansible.builtin.apt:
+    autoremove: true
+  when:
+    - not ansible_check_mode

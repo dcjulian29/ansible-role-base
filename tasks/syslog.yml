@@ -1,14 +1,16 @@
 ---
 - name: Ensure logging package is installed
   ansible.builtin.package:
-    name: "{{ base_logging_package }}"
+    name: rsyslog
     state: present
 
 - name: Ensure logging forwarding rules are configured
   ansible.builtin.template:
-    src: remotelog.conf.j2
-    dest: /etc/rsyslog.d/remotelog.conf
-    owner: root
+    src: log-forward.conf.j2
+    dest: /etc/rsyslog.d/log-forward.conf
     group: root
+    lstrip_blocks: true
     mode: "0644"
+    owner: root
+    trim_blocks: true
   notify: Restart Syslog

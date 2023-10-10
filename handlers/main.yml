@@ -1,4 +1,8 @@
 ---
+- name: Update GRUB
+  ansible.builtin.shell: /usr/sbin/update-grub
+  notify: Reboot Host
+
 - name: Reboot Host
   ansible.builtin.reboot:
     reboot_timeout: 600
@@ -10,9 +14,9 @@
 
 - name: Restart Syslog
   ansible.builtin.service:
-    name: "{{ base_logging_service }}"
+    name: rsyslog
     state: restarted
 
-- name: Update GRUB
-  ansible.builtin.shell: /usr/sbin/update-grub
-  notify: Reboot Host
+- name: Update trusted certificate authorities
+  ansible.builtin.command:
+    cmd: "{{ base_update_trust_cert }}"

@@ -1,7 +1,0 @@
----
-- name: Ensure SWAP space is used last in memory operations
-  ansible.posix.sysctl:
-    name: vm.swappiness
-    value: 0
-    state: present
-    reload: true

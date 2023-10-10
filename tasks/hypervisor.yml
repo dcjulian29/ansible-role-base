@@ -1,18 +1,4 @@
 ---
-- name: Ensure virtualization kernel packages are installed
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ base_kernel_package_install }}"
-  notify: Update GRUB
-
-- name: Ensure non-virtualization kernel packages are removed
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: absent
-  loop: "{{ base_kernel_package_remove }}"
-  notify: Update GRUB
-
 - name: Check if NOOP scheduler is configured in the boot command
   ansible.builtin.lineinfile:
     path: /etc/default/grub

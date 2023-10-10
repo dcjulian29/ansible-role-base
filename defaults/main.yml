@@ -1,20 +1,12 @@
 ---
-base_additional_packages: []
 base_apt_arch_i386: false
 base_apt_arch_x64: true
-base_apt_components: []
-base_apt_overwrite: true
-base_apt_repo_backports: false
-base_apt_repo_proposed: false
-base_apt_repo_security: true
-base_apt_repo_updates: true
 base_apt_sources: []
-# - deb http://security.ubuntu.com/ubuntu focal-security main restricted
-# - deb http://us.archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
-base_apt_types:
-  - deb
-# - deb-src
-base_apt_url: ''  # If not set via group or host, distribution default is used
+# - deb https://deb.debian.org/debian bookworm main
+# - deb https://security.debian.org/debian-security bookworm-security main
+# - deb https://deb.debian.org/debian bookworm-updates main
+# - deb https://deb.debian.org/debian bookworm-backports main
+base_ca_path: /usr/local/share/ca-certificates
 base_certauth:
   - name: julian_root.crt
     url: https://julianscorner.com/dl/ca/julianca.crt
@@ -24,9 +16,6 @@ base_certauth:
     url: https://julianscorner.com/dl/c/acme_ca.crt
   - name: julian_jnet.crt
     url: https://julianscorner.com/dl/c/jnet_ca.crt
-base_kernel_package_install: []
-base_kernel_package_remove: []
-base_logging_package: rsyslog
 base_logging_rules: []
 # - fqdn: syslog.example.com
 #   port: 8514
@@ -36,16 +25,45 @@ base_logging_rules: []
 #   port: 514
 #   facility: "auth,authpriv"
 #   level: "*"
-base_logging_service: rsyslog
-base_ssh_challenge_response_auth: "no"
-base_ssh_gss_api_authentication: "no"
-base_ssh_password_authentication: "no"
-base_ssh_permit_empty_password: "no"
-base_ssh_permit_root_login: "no"
+base_packages:
+  - curl
+  - cifs-utils
+  - acl
+base_packages_additional: []
+base_packages_distribution: []
+base_profile_scripts:
+  - name: myaliases.sh
+    url: https://julianscorner.com/dl/l/myaliases.sh
+  - name: myfunctions.sh
+    url: https://julianscorner.com/dl/l/myfunctions.sh
+  - name: myprompt.sh
+    url: https://julianscorner.com/dl/l/myprompt.sh
+  - name: localbin.sh
+    url: https://julianscorner.com/dl/l/localbin.sh
+base_ssh_client_alive_interval: 300
+base_ssh_challenge_response_auth: false
+base_ssh_config_path: /etc/ssh/sshd_config
+base_ssh_gss_api_authentication: false
+base_ssh_password_authentication: false
+base_ssh_permit_empty_password: false
+base_ssh_permit_root_login: false
+base_ssh_public_key_authentication: true
+base_ssh_print_last_log: false
+base_ssh_print_motd: false
+base_ssh_allow_agent_forwarding: false
+base_ssh_allow_tcp_forwarding: false
+base_ssh_max_sessions: 3
+base_ssh_max_auth_tries: 2
+base_ssh_name: ssh
+base_ssh_login_grace_time: 2m
 base_ssh_port: 22
-base_ssh_usedns: "no"
-base_ssh_x11_forwarding: "no"
+base_ssh_usedns: false
+base_ssh_x11_forwarding: false
 base_sudoers_nopassword: []
 base_sudoers_password: []
+base_sysctl:
+  - key: vm.swappiness
+    value: 0
 base_system_python_allow_pip: true
 base_timezone_name: America/New_York
+base_update_trust_cert: /usr/sbin/update-ca-certificates

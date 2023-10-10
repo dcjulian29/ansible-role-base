@@ -1,5 +1,6 @@
 ---
-base_packages:
+base_ca_path: /etc/pki/ca-trust/source/anchors
+base_packages_distribution:
   - sudo
   - vim-enhanced
   - which
@@ -10,4 +11,3 @@ base_packages:
 base_ssh_config_path: /etc/ssh/sshd_config
 base_ssh_name: sshd
 base_update_trust_cert: /bin/update-ca-trust
-ca_path: /etc/pki/ca-trust/source/anchors
