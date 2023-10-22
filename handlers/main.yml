@@ -7,6 +7,12 @@
   ansible.builtin.reboot:
     reboot_timeout: 600
 
+- name: Restart Journal
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  loop: "{{ base_journal_services }}"
+
 - name: Restart SSH
   ansible.builtin.service:
     name: "{{ base_ssh_name }}"

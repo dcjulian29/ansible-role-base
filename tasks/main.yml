@@ -77,9 +77,8 @@
     - base_certauth | length > 0
     - not ansible_check_mode   # (Bug ansible/ansible#65687)
 
-- name: Enable syslog logging forwarding rule
-  ansible.builtin.include_tasks: syslog.yml
-  when: base_logging_rules | length > 0
+- name: Ensure logging configuration is present
+  ansible.builtin.include_tasks: logging.yml
 
 - name: Include tasks for virtualized guests
   ansible.builtin.include_tasks: hypervisor.yml

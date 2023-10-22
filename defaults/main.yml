@@ -16,6 +16,18 @@ base_certauth:
     url: https://julianscorner.com/dl/c/acme_ca.crt
   - name: julian_jnet.crt
     url: https://julianscorner.com/dl/c/jnet_ca.crt
+base_journal_config_path: /etc/systemd/journald.conf
+base_journal_compression: true
+base_journal_forward_console: false
+base_journal_forward_syslog: "{{ true if base_logging_rules | length > 0 else false }}"
+base_journal_max_disk_size: 4G
+base_journal_max_files: 4
+base_journal_max_file_size: 1G
+base_journal_sync_interval: 5m
+base_journal_per_user: false
+base_journal_services:
+  - systemd-journald.service
+  - systemd-journal-flush.service
 base_logging_rules: []
 # - fqdn: syslog.example.com
 #   port: 8514

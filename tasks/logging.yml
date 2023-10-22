@@ -1,0 +1,58 @@
+---
+- name: Ensure Journal daemons are enabled and running
+  ansible.builtin.service:
+    enabled: true
+    name: "{{ item }}"
+    state: started
+  loop: "{{ base_journal_services }}"
+
+- name: Ensure Journal configuration
+  ansible.builtin.lineinfile:
+    dest: "{{ base_journal_config_path }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    mode: "0644"
+  loop:
+    - regexp: "^Compress="
+      line: "Compress={{ 'yes' if base_journal_compression else 'no' }}"
+    - regexp: "^SplitMode="
+      line: "SplitMode={{ base_journal_per_user | bool | ternary('uid', 'none') }}"
+    - regexp: "^SystemMaxUse="
+      line: "SystemMaxUse={{ base_journal_max_disk_size }}"
+    - regexp: "^SystemMaxFiles="
+      line: "SystemMaxFiles={{ base_journal_max_files }}"
+    - regexp: "^SystemMaxFileSize="
+      line: "SystemMaxFileSize={{ base_journal_max_file_size }}"
+    - regexp: "^SyncIntervalSec="
+      line: "SyncIntervalSec={{ base_journal_sync_interval }}"
+    - regexp: "^ForwardToConsole="
+      line: "ForwardToConsole={{ 'yes' if base_journal_forward_console else 'no' }}"
+    - regexp: "^ForwardToSyslog="
+      line: "ForwardToSyslog={{ 'yes' if base_journal_forward_syslog else 'no' }}"
+  notify: Restart Journal
+
+- name: Ensure logging rules if needed
+  when: base_logging_rules | length > 0
+  block:
+
+    - name: Remove Journal syslog README
+      ansible.builtin.file:
+        path: /var/log/README
+        state: absent
+
+    - name: Ensure logging package is installed
+      ansible.builtin.package:
+        name: rsyslog
+        state: present
+
+    - name: Ensure logging forwarding rules are configured
+      ansible.builtin.template:
+        src: log-forward.conf.j2
+        dest: /etc/rsyslog.d/log-forward.conf
+        group: root
+        lstrip_blocks: true
+        mode: "0644"
+        owner: root
+        trim_blocks: true
+      notify: Restart Syslog
