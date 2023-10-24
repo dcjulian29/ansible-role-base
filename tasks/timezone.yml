@@ -41,3 +41,32 @@
     name: "{{ base_timezone_name }}"
   tags:
     - minimal
+
+
+- name: Configure time synchronization settings
+  ansible.builtin.lineinfile:
+    dest: /etc/systemd/timesyncd.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertafter: '\[Time\]'
+    backrefs: true
+    create: true
+    state: present
+    owner: root
+    group: root
+    mode: "0644"
+  with_items:
+    - regexp: '^\s*#?\s*(NTP=).*$'
+      line: 'NTP={{ base_ntp_servers | join(" ") }}'
+    - regexp: '^\s*#?\s*(ConnectionRetrySec=).*$'
+      line: 'ConnectionRetrySec={{ base_ntp_connection_retry }}'
+    - regexp: '^\s*#?\s*(RootDistanceMaxSec=).*$'
+      line: 'RootDistanceMaxSec={{ base_ntp_root_distance_max }}'
+    - regexp: '^\s*#?\s*(PollIntervalMinSec=).*$'
+      line: 'PollIntervalMinSec={{ base_ntp_poll_interval_min }}'
+    - regexp: '^\s*#?\s*(PollIntervalMaxSec=).*$'
+      line: 'PollIntervalMaxSec={{ base_ntp_poll_interval_max }}'
+  notify:
+    - Restart timesyncd
+  tags:
+    - minimal

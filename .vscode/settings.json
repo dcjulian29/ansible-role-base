@@ -17,6 +17,7 @@
     "OVMF",
     "posix",
     "rsyslog",
+    "timesyncd",
     "TZDATA",
     "UEFI",
     "unmark",
