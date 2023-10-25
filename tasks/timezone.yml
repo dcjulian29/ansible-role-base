@@ -42,6 +42,12 @@
   tags:
     - minimal
 
+- name: Ensure that the systemd-timesyncd package is present
+  ansible.builtin.package:
+    name: systemd-timesyncd
+    state: present
+  tags:
+    - minimal
 
 - name: Configure time synchronization settings
   ansible.builtin.lineinfile:
@@ -50,10 +56,7 @@
     line: "{{ item.line }}"
     insertafter: '\[Time\]'
     backrefs: true
-    create: true
     state: present
-    owner: root
-    group: root
     mode: "0644"
   with_items:
     - regexp: '^\s*#?\s*(NTP=).*$'
