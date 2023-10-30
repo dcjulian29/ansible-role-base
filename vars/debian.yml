@@ -7,3 +7,4 @@ base_packages_distribution:
   - nfs-common
   - openssh-server
   - python3-cryptography
+base_ntp_service: systemd-timesyncd

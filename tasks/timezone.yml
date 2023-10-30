@@ -44,7 +44,7 @@
 
 - name: Ensure that the systemd-timesyncd package is present
   ansible.builtin.package:
-    name: systemd-timesyncd
+    name: {{ base_ntp_service }}
     state: present
   tags:
     - minimal
