@@ -50,6 +50,8 @@ base_packages:
   - curl
   - cifs-utils
   - acl
+  - atop
+  - iftop
 base_packages_additional: []
 base_packages_distribution: []
 base_profile_scripts:
