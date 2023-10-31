@@ -6,4 +6,3 @@ base_packages_distribution:
   - net-tools
   - nfs-common
   - software-properties-common
-  - openssh-server

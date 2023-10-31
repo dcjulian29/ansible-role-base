@@ -5,5 +5,4 @@ base_packages_distribution:
   - gnupg-agent
   - net-tools
   - nfs-common
-  - openssh-server
   - python3-cryptography
