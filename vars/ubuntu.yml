@@ -7,4 +7,3 @@ base_packages_distribution:
   - nfs-common
   - software-properties-common
   - openssh-server
-base_ntp_service: systemd-timesyncd

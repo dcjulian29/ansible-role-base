@@ -1,6 +1,5 @@
 ---
 base_ca_path: /etc/pki/ca-trust/source/anchors
-base_ntp_service: timesyncd
 base_packages_distribution:
   - sudo
   - vim-enhanced

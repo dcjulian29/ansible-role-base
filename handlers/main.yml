@@ -10,12 +10,14 @@
 - name: Restart Journal
   ansible.builtin.service:
     name: "{{ item }}"
+    enabled: true
     state: restarted
   loop: "{{ base_journal_services }}"
 
 - name: Restart SSH
   ansible.builtin.service:
     name: "{{ base_ssh_name }}"
+    enabled: true
     state: restarted
 
 - name: Restart Syslog
@@ -25,7 +27,8 @@
 
 - name: Restart timesyncd
   ansible.builtin.service:
-    name: systemd-timesyncd
+    name: "{{ base_ntp_service }}"
+    enabled: true
     state: restarted
 
 - name: Update trusted certificate authorities

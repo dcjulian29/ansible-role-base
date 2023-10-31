@@ -1,12 +1,16 @@
 {
   "cSpell.words": [
+    "chrony",
     "cifs",
     "cmdline",
+    "cpus",
     "dcjulian",
     "dpkg",
     "enablerepo",
     "epel",
     "GSSAPI",
+    "iftop",
+    "jnet",
     "julianca",
     "lineinfile",
     "myaliases",

@@ -42,9 +42,18 @@
   tags:
     - minimal
 
+- name: Remove other time synchronization packages if present
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - chrony
+  tags:
+    - minimal
+
 - name: Ensure that the systemd-timesyncd package is present
   ansible.builtin.package:
-    name: "{{ base_ntp_service }}"
+    name: "{{ base_ntp_package }}"
     state: present
   tags:
     - minimal
