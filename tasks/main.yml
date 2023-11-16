@@ -11,6 +11,28 @@
   tags:
     - minimal
 
+- name: Install CA certificate package
+  ansible.builtin.package:
+    name: ca-certificates
+    state: present
+  tags:
+    - minimal
+
+- name: Ensure custom certificate authority files are present
+  ansible.builtin.get_url:
+    dest: "{{ base_ca_path }}/{{ item.name }}"
+    group: root
+    mode: "0444"
+    owner: root
+    url: "{{ item.url }}"
+  loop: "{{ base_certauth }}"
+  notify: Update trusted certificate authorities
+  tags:
+    - minimal
+  when:
+    - base_certauth | length > 0
+    - not ansible_check_mode   # (Bug ansible/ansible#65687)
+
 - name: Include package manager specific tasks
   ansible.builtin.include_tasks: "pkg_{{ ansible_pkg_mgr | lower }}.yml"
 
@@ -54,28 +76,6 @@
   ansible.builtin.include_tasks: timezone.yml
   tags:
     - minimal
-
-- name: Install CA certificate package
-  ansible.builtin.package:
-    name: ca-certificates
-    state: present
-  tags:
-    - minimal
-
-- name: Ensure custom certificate authority files are present
-  ansible.builtin.get_url:
-    dest: "{{ base_ca_path }}/{{ item.name }}"
-    group: root
-    mode: "0444"
-    owner: root
-    url: "{{ item.url }}"
-  loop: "{{ base_certauth }}"
-  notify: Update trusted certificate authorities
-  tags:
-    - minimal
-  when:
-    - base_certauth | length > 0
-    - not ansible_check_mode   # (Bug ansible/ansible#65687)
 
 - name: Ensure logging configuration is present
   ansible.builtin.include_tasks: logging.yml
