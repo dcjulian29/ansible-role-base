@@ -36,11 +36,6 @@
   when: base_logging_rules | length > 0
   block:
 
-    - name: Remove Journal syslog README
-      ansible.builtin.file:
-        path: /var/log/README
-        state: absent
-
     - name: Ensure logging package is installed
       ansible.builtin.package:
         name: rsyslog
