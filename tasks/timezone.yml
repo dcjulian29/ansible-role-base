@@ -45,7 +45,7 @@
 - name: Remove other time synchronization packages if present
   ansible.builtin.package:
     name: "{{ item }}"
-    state: present
+    state: absent
   with_items:
     - chrony
   tags:
