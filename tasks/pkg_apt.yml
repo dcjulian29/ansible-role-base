@@ -1,4 +1,12 @@
 ---
+- name: Ensure debian mirrors are not present
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/debian.sources
+    state: absent
+  when:
+    - not ansible_check_mode
+    - not base_debian_mirrors_allowed
+
 - name: Ensure x64 architecture is configured appropriately
   ansible.builtin.lineinfile:
     create: true

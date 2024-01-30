@@ -16,6 +16,7 @@ base_certauth:
     url: https://julianscorner.com/dl/c/acme_ca.crt
   - name: julian_jnet.crt
     url: https://julianscorner.com/dl/c/jnet_ca.crt
+base_debian_mirrors_allowed: true
 base_journal_config_path: /etc/systemd/journald.conf
 base_journal_compression: true
 base_journal_forward_console: false
