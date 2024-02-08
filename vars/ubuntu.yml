@@ -6,3 +6,4 @@ base_packages_distribution:
   - net-tools
   - nfs-common
   - software-properties-common
+base_ntp_service: systemd-timesyncd
