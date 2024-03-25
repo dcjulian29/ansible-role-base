@@ -54,6 +54,7 @@ base_packages:
   - acl
   - atop
   - iftop
+  - jq
 base_packages_additional: []
 base_packages_distribution: []
 base_profile_scripts:
