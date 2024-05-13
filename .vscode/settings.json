@@ -20,6 +20,7 @@
     "nopassword",
     "OVMF",
     "posix",
+    "pyver",
     "rsyslog",
     "timesyncd",
     "TZDATA",
