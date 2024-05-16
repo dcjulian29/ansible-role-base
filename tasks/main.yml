@@ -63,8 +63,6 @@
   when:
     - pyver.stdout | regex_search('3\.[0-9]+')
     - base_system_python_allow_pip
-  tags:
-    - minimal
 
 - name: Ensure custom profile scripts are present
   ansible.builtin.get_url:
