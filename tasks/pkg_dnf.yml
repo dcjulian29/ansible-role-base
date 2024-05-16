@@ -1,10 +1,12 @@
 ---
-- name: Update package cache
+- name: Update DNF package cache
   ansible.builtin.dnf:
     update_cache: true
   changed_when: false
   when:
     - not ansible_check_mode
+  tags:
+    - minimal
 
 - name: Ensure custom distribution packages are installed
   ansible.builtin.dnf:

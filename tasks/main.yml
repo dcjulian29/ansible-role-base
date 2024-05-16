@@ -35,6 +35,8 @@
 
 - name: Include package manager specific tasks
   ansible.builtin.include_tasks: "pkg_{{ ansible_pkg_mgr | lower }}.yml"
+  tags:
+    - minimal
 
 - name: Ensure base packages are installed
   ansible.builtin.package:

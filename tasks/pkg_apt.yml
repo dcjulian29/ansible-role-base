@@ -36,12 +36,14 @@
     src: sources.list.j2
   when: base_apt_sources | length > 0
 
-- name: Update APT cache
+- name: Update APT package cache
   ansible.builtin.apt:
     update_cache: true
   changed_when: false
   when:
     - not ansible_check_mode
+  tags:
+    - minimal
 
 - name: Ensure custom distribution packages are installed
   ansible.builtin.apt:
