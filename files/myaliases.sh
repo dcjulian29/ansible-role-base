@@ -39,9 +39,6 @@ alias lsock='sudo /usr/bin/lsof -i -P'
 alias lsockU='sudo /usr/bin/lsof -nP | grep UDP'
 alias lsockT='sudo /usr/bin/lsof -nP | grep TCP'
 alias openPorts='sudo /usr/bin/lsof -i | grep LISTEN'
-alias purgeaptcache='apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false;apt-get autoremove;rm -rf /var/lib/apt/lists/*;apt-get clean'
-alias purgejournal='sudo journalctl --rotate;sudo journalctl --vacuum-time=1s'
-alias purgedockerlog='sudo sh -c '"'"'echo "" > $(docker inspect --format="{{.LogPath}}" \$1)'"'"''
 
 ################################################################
 
