@@ -57,6 +57,7 @@
     state: "{{ 'latest' }}"
   when:
     - not ansible_check_mode
+    - base_update_system_packages
 
 - name: Remove unused APT packages from the cache
   ansible.builtin.apt:
