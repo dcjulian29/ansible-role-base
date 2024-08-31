@@ -33,12 +33,21 @@ alias myip='wget -q -O - http://checkip.dyndns.org | sed -n "s/^.*Address:\s\(.*
 alias myip6='wget -q -O - http://checkipv6.dyndns.org | sed -n "s/^.*Address:\s\(.*\)<\/body>.*$/\1/p"'
 alias ping='ping -c 4'
 alias fastping='ping -c 100 -s.2'
-alias ports='sudo netstat -tulanpw'
 alias http-header='wget -qO- --server-response --spider'
-alias lsock='sudo /usr/bin/lsof -i -P'
-alias lsockU='sudo /usr/bin/lsof -nP | grep UDP'
-alias lsockT='sudo /usr/bin/lsof -nP | grep TCP'
-alias openPorts='sudo /usr/bin/lsof -i | grep LISTEN'
+
+if [ $(id -u) -ne 0 ]; then
+  alias ports='netstat -tulanpw'
+  alias lsock='/usr/bin/lsof -i -P'
+  alias lsockU='/usr/bin/lsof -nP | grep UDP'
+  alias lsockT='/usr/bin/lsof -nP | grep TCP'
+  alias openPorts='/usr/bin/lsof -i | grep LISTEN'
+else
+  alias ports='sudo netstat -tulanpw'
+  alias lsock='sudo /usr/bin/lsof -i -P'
+  alias lsockU='sudo /usr/bin/lsof -nP | grep UDP'
+  alias lsockT='sudo /usr/bin/lsof -nP | grep TCP'
+  alias openPorts='sudo /usr/bin/lsof -i | grep LISTEN'
+fi
 
 ################################################################
 
