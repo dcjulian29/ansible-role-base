@@ -66,9 +66,9 @@ if [ -f /etc/debian_version ] ; then
         alias reboot='sudo /sbin/reboot'
         alias apt-get='sudo apt'
         alias apt='sudo apt'
-        alias update='sudo apt update;sudo apt full-upgrade -y;sudo apt autoclean -y;sudo apt autoremove -y'
+        alias update='sudo apt update;sudo apt full-upgrade -y;sudo apt autoclean -y;sudo apt autoremove -y;[ -x "$(command -v flatpak)"] && sudo flatpak -y update'
     else
         alias apt-get='apt'
-        alias update='apt update;apt full-upgrade -y;apt autoclean -y;apt autoremove -y'
+        alias update='apt update;apt full-upgrade -y;apt autoclean -y;apt autoremove -y;[ -x "$(command -v flatpak)"] && flatpak -y update'
     fi
 fi
