@@ -24,3 +24,18 @@ extract () {
 ff () { /usr/bin/find . -name "$@" ; }
 ffs () { /usr/bin/find . -name "$@"'*' ; }
 ffe () { /usr/bin/find . -name '*'"$@" ; }
+
+docker_clean_logs() {
+  docker stop $1
+
+  CACHE_LOG_PATH=$(docker inspect --format="{{.HostsPath}}" $1 | xargs dirname)
+  CACHE_LOG="$CACHE_LOG_PATH/container-cached.log"
+
+  truncate -s 0 $CACHE_LOG
+
+  JSON_LOG=$(docker inspect --format="{{.HostsPath}}" $1 | xargs dirname)
+  
+  truncate -s 0 $JSON_LOG
+
+  docker start $c
+}

@@ -49,6 +49,9 @@ else
   alias openPorts='sudo /usr/bin/lsof -i | grep LISTEN'
 fi
 
+alias docker_clean_images='docker rmi $(docker images -a --filter=dangling=true -q)'
+alias docker_clean_ps='docker rm $(docker ps --filter=status=exited --filter=status=created -q)'
+
 ################################################################
 
 if [ -f /etc/redhat-release ] ; then
