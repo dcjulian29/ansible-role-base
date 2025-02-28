@@ -7,15 +7,7 @@ base_apt_sources: []
 # - deb https://deb.debian.org/debian bookworm-updates main
 # - deb https://deb.debian.org/debian bookworm-backports main
 base_ca_path: /usr/local/share/ca-certificates
-base_certauth:
-  - name: julian_root.crt
-    url: https://julianscorner.com/dl/ca/julianca.crt
-  - name: julian_intermediate.crt
-    url: https://julianscorner.com/dl/c/intermediate.crt
-  - name: julian_acme.crt
-    url: https://julianscorner.com/dl/c/acme_ca.crt
-  - name: julian_jnet.crt
-    url: https://julianscorner.com/dl/c/jnet_ca.crt
+base_certauth: {}
 base_debian_mirrors_allowed: true
 base_journal_config_path: /etc/systemd/journald.conf
 base_journal_compression: true
