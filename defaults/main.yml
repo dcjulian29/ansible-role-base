@@ -7,7 +7,7 @@ base_apt_sources: []
 # - deb https://deb.debian.org/debian bookworm-updates main
 # - deb https://deb.debian.org/debian bookworm-backports main
 base_ca_path: /usr/local/share/ca-certificates
-base_certauth: {}
+base_certauth: []
 base_debian_mirrors_allowed: true
 base_journal_config_path: /etc/systemd/journald.conf
 base_journal_compression: true
