@@ -63,7 +63,7 @@
     state: absent
     path: "/usr/lib/python{{ pyver.stdout.split()[1] | regex_search('([0-9]+\\.[0-9]+)') }}/EXTERNALLY-MANAGED"
   when:
-    - pyver.stdout | regex_search('3\.[0-9]+')
+    - pyver.stdout | regex_search('3\.[0-12]+') | bool
     - base_system_python_allow_pip
 
 - name: Ensure custom profile scripts are present
