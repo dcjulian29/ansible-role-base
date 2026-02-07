@@ -1,9 +1,0 @@
----
-base_packages_distribution:
-  - colordiff
-  - gnupg
-  - gnupg-agent
-  - net-tools
-  - nfs-common
-  - software-properties-common
-base_ntp_service: systemd-timesyncd

@@ -4,8 +4,8 @@
   vars:
     params:
       files:
-        - "{{ ansible_distribution | lower }}.yml"
-        - "{{ ansible_os_family | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
       paths:
         - vars
   tags:
@@ -34,7 +34,7 @@
     - not ansible_check_mode   # (Bug ansible/ansible#65687)
 
 - name: Include package manager specific tasks
-  ansible.builtin.include_tasks: "pkg_{{ ansible_pkg_mgr | lower }}.yml"
+  ansible.builtin.include_tasks: "pkg_{{ ansible_facts['pkg_mgr'] | lower }}.yml"
   tags:
     - minimal
 
@@ -89,9 +89,9 @@
 - name: Include tasks for virtualized guests
   ansible.builtin.include_tasks: hypervisor.yml
   when:
-    - ansible_bios_version is match("Hyper-V UEFI") or
-      ansible_bios_vendor is match("SeaBIOS") or
-      ansible_bios_vendor is match("OVMF")
+    - ansible_facts['bios_version'] is match("Hyper-V UEFI") or
+      ansible_facts['bios_vendor'] is match("SeaBIOS") or
+      ansible_facts['bios_vendor'] is match("OVMF")
 
 - name: Ensure sysctl is configured appropriately
   ansible.posix.sysctl:
