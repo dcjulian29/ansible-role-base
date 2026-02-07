@@ -12,4 +12,5 @@ base_packages_distribution:
   - epel-release
 base_ssh_config_path: /etc/ssh/sshd_config
 base_ssh_name: sshd
+base_timesync_conf: /lib/systemd/timesync.conf
 base_update_trust_cert: /bin/update-ca-trust

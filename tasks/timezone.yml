@@ -52,11 +52,12 @@
 
 - name: Configure time synchronization settings
   ansible.builtin.lineinfile:
-    dest: /etc/systemd/timesyncd.conf
+    dest: "{{ base_timesync_conf }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     insertafter: '\[Time\]'
     backrefs: true
+    create: true
     state: present
     mode: "0644"
   with_items:

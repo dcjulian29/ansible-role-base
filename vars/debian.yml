@@ -7,3 +7,4 @@ base_packages_distribution:
   - nfs-common
   - python3-cryptography
 base_ntp_service: systemd-timesyncd
+base_timesync_conf: /etc/systemd/timesyncd.conf
