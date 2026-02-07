@@ -82,7 +82,6 @@ base_sudoers_password: []
 base_sysctl:
   - key: vm.swappiness
     value: 0
-base_system_python_allow_pip: true
 base_timezone_name: America/New_York
 base_update_system_packages: true
 base_update_trust_cert: /usr/sbin/update-ca-certificates
