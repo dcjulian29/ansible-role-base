@@ -9,7 +9,6 @@ base_apt_sources: []
 base_ca_path: /usr/local/share/ca-certificates
 base_certauth: []
 base_debian_mirrors_allowed: true
-base_journal_config_path: /etc/systemd/journald.conf
 base_journal_compression: true
 base_journal_forward_console: false
 base_journal_forward_syslog: "{{ true if base_logging_rules | length > 0 else false }}"

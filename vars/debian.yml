@@ -1,4 +1,5 @@
 ---
+base_journal_conf: /etc/systemd/journald.conf
 base_packages_distribution:
   - colordiff
   - gnupg

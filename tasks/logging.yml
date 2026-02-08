@@ -8,7 +8,7 @@
 
 - name: Ensure Journal configuration
   ansible.builtin.lineinfile:
-    dest: "{{ base_journal_config_path }}"
+    dest: "{{ base_journal_conf }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present

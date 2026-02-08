@@ -1,5 +1,6 @@
 ---
 base_ca_path: /etc/pki/ca-trust/source/anchors
+base_journal_conf: /usr/lib/systemd/journald.conf
 base_ntp_service: timesyncd
 base_packages_distribution:
   - sudo
@@ -12,5 +13,5 @@ base_packages_distribution:
   - epel-release
 base_ssh_config_path: /etc/ssh/sshd_config
 base_ssh_name: sshd
-base_timesync_conf: /lib/systemd/timesync.conf
+base_timesync_conf: /lib/systemd/timesyncd.conf
 base_update_trust_cert: /bin/update-ca-trust
