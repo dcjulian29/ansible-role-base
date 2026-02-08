@@ -1,4 +1,20 @@
 ---
+- name: Put SELinux in permissive mode, logging actions that would be blocked
+  ansible.posix.selinux:
+    policy: targeted
+    state: disabled
+  register: selinux_status
+  when: ansible_facts['os_family'] | lower == "redhat"
+  tags:
+    - minimal
+
+- name: Reboot host when SELinux status changes
+  ansible.builtin.reboot:
+    reboot_timeout: 600
+  when: ansible_facts['os_family'] | lower == "redhat" and selinux_status.reboot_required
+  tags:
+    - minimal
+
 - name: Include OS-specific variables.
   ansible.builtin.include_vars: "{{ lookup('ansible.builtin.first_found', params) }}"
   vars:
