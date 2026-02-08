@@ -38,7 +38,6 @@ base_logging_rules: []
 #   facility: "auth,authpriv"
 #   level: "*"
 base_ntp_connection_retry: 30
-base_ntp_package: systemd-timesyncd
 base_ntp_poll_interval_max: 2048
 base_ntp_poll_interval_min: 32
 base_ntp_root_distance_max: 5

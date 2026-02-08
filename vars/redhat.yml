@@ -1,7 +1,6 @@
 ---
 base_ca_path: /etc/pki/ca-trust/source/anchors
 base_journal_conf: /usr/lib/systemd/journald.conf
-base_ntp_service: timesyncd
 base_packages_distribution:
   - sudo
   - vim-enhanced

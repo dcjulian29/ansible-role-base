@@ -1,2 +1,4 @@
 ---
+base_ntp_package: systemd-timesyncd
+base_ntp_service: systemd-timesyncd
 base_update_trust_cert: /usr/sbin/update-ca-certificates
