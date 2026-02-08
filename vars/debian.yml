@@ -1,4 +1,5 @@
 ---
+base_ca_path: /usr/local/share/ca-certificates
 base_journal_conf: /etc/systemd/journald.conf
 base_packages_distribution:
   - colordiff

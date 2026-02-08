@@ -35,12 +35,12 @@
     - minimal
 
 - name: Ensure custom certificate authority files are present
-  ansible.builtin.get_url:
+  ansible.builtin.copy:
+    content: "{{ item.cert }}\n"
     dest: "{{ base_ca_path }}/{{ item.name }}"
     group: root
     mode: "0444"
     owner: root
-    url: "{{ item.url }}"
   loop: "{{ base_certauth }}"
   notify: Update trusted certificate authorities
   tags:

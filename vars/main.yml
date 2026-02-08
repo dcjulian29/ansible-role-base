@@ -1,0 +1,2 @@
+---
+base_update_trust_cert: /usr/sbin/update-ca-certificates
