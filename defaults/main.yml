@@ -48,15 +48,15 @@ base_ntp_servers:
   - 3.pool.ntp.org
 base_packages_additional: []
 base_packages_distribution: []
-base_profile_scripts:
-  - name: myaliases.sh
-    url: https://julianscorner.com/dl/l/myaliases.sh
-  - name: myfunctions.sh
-    url: https://julianscorner.com/dl/l/myfunctions.sh
-  - name: myprompt.sh
-    url: https://julianscorner.com/dl/l/myprompt.sh
-  - name: localbin.sh
-    url: https://julianscorner.com/dl/l/localbin.sh
+base_profile_scripts: []
+  # - name: myaliases.sh
+  #   script: |
+  #     if [ "$TERM" == "dumb" ]; then return 0; fi
+
+  #     alias cp='cp -iv'
+  #     alias mv='mv -iv'
+  #     alias mkdir='mkdir -pv'
+  #     alias dir='ls -lah'
 base_ssh_client_alive_interval: 300
 base_ssh_challenge_response_auth: false
 base_ssh_gss_api_authentication: false

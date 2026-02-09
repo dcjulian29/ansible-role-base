@@ -69,12 +69,12 @@
   when: base_packages_additional | length > 0
 
 - name: Ensure custom profile scripts are present
-  ansible.builtin.get_url:
+  ansible.builtin.copy:
+    content: "{{ item.script }}\n"
     dest: "/etc/profile.d/{{ item.name }}"
     group: root
-    mode: "0444"
+    mode: "0644"
     owner: root
-    url: "{{ item.url }}"
   loop: "{{ base_profile_scripts }}"
   when:
     - base_profile_scripts | length > 0
