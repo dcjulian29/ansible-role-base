@@ -9,6 +9,8 @@ base_packages_distribution:
   - openssl
   - logrotate
   - nfs-utils
+  - net-tools
+  - nano
   - epel-release
 base_timesync_conf: /lib/systemd/timesyncd.conf
 base_update_trust_cert: /bin/update-ca-trust
