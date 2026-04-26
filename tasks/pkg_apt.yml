@@ -27,14 +27,37 @@
     owner: root
     state: "{{ 'present' if base_apt_arch_i386 else 'absent' }}"
 
-- name: Ensure /etc/apt/sources.list is configured properly
-  ansible.builtin.template:
-    dest: /etc/apt/sources.list
-    group: root
-    mode: '0644'
-    owner: root
-    src: sources.list.j2
-  when: base_apt_sources | length > 0
+- name: Manage default Debian repositories
+  when: base_apt_remove_default_repos | bool
+  block:
+    - name: Remove traditional /etc/apt/sources.list
+      ansible.builtin.file:
+        path: /etc/apt/sources.list
+        state: absent
+
+    - name: Ensure /etc/apt/sources.list is an empty file (prevents apt warnings)
+      ansible.builtin.copy:
+        content: "# Managed by Ansible. Traditional sources.list is disabled.\n"
+        dest: /etc/apt/sources.list
+        mode: '0644'
+
+    - name: Remove default deb822 /etc/apt/sources.list.d/debian.sources (Debian 12+)
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/debian.sources
+        state: absent
+
+- name: Configure custom deb822 APT repositories
+  ansible.builtin.deb822_repository:
+    name: "{{ item.name }}"
+    types: "{{ item.types | default(['deb']) }}"
+    uris: "{{ item.uris }}"
+    suites: "{{ item.suites }}"
+    components: "{{ item.components | default([]) }}"
+    signed_by: "{{ item.signed_by | default(omit) }}"
+    architectures: "{{ item.architectures | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+    enabled: "{{ item.enabled | default('yes') }}"
+  loop: "{{ base_apt_custom_repos }}"
 
 - name: Update APT package cache
   ansible.builtin.apt:

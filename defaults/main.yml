@@ -1,11 +1,38 @@
 ---
 base_apt_arch_i386: false
 base_apt_arch_x64: true
-base_apt_sources: []
-# - deb https://deb.debian.org/debian bookworm main
-# - deb https://security.debian.org/debian-security bookworm-security main
-# - deb https://deb.debian.org/debian bookworm-updates main
-# - deb https://deb.debian.org/debian bookworm-backports main
+base_apt_custom_repos:
+  - name: debian-base
+    types: [deb]
+    uris:
+      - http://deb.debian.org/debian/
+    suites:
+      - "{{ ansible_facts['distribution_release'] }}"
+      - "{{ ansible_facts['distribution_release'] }}-updates"
+    components:
+      - main
+      - non-free
+      - non-free-firmware
+  - name: debian-security
+    types: [deb]
+    uris:
+      - http://security.debian.org/debian-security
+    suites:
+      - "{{ ansible_facts['distribution_release'] }}-security"
+    components:
+      - main
+      - non-free
+      - non-free-firmware
+#   - name: docker
+#     types: [deb]
+#     uris:
+#       - https://download.docker.com/linux/debian
+#     suites:
+#       - "{{ ansible_facts['distribution_release'] }}"
+#     components:
+#       - stable
+#     signed_by: https://download.docker.com/linux/debian/gpg
+base_apt_remove_default_repos: true
 base_certauth: []
   # - name: julian_root.crt
   #   cert: |
