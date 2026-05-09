@@ -1,8 +1,8 @@
 ---
-- name: Put SELinux in permissive mode, logging actions that would be blocked
+- name: Set SELinux mode for RHEL based hosts
   ansible.posix.selinux:
     policy: targeted
-    state: disabled
+    state: "{{ base_selinux_mode }}"
   register: selinux_status
   when: ansible_facts['os_family'] | lower == "redhat"
   tags:

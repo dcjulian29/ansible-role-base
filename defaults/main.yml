@@ -86,6 +86,7 @@ base_profile_scripts: []
   #     alias mv='mv -iv'
   #     alias mkdir='mkdir -pv'
   #     alias dir='ls -lah'
+base_selinux_mode: disabled    # enforcing, permissive, disabled  !! Only RHEL distros !!
 base_ssh_client_alive_interval: 300
 base_ssh_challenge_response_auth: false
 base_ssh_gss_api_authentication: false
