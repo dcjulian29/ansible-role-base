@@ -32,9 +32,23 @@
     - not ansible_check_mode
     - (ansible_facts['os_family'] | lower) == 'debian'
 
+- name: Get current timezone
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      readlink /etc/localtime | sed 's|.*zoneinfo/||'
+    executable: /bin/bash
+  register: current_timezone
+  changed_when: false
+  check_mode: false
+  failed_when: false
+  tags:
+    - minimal
+
 - name: Ensure that the system is set to correct timezone
   community.general.timezone:
     name: "{{ base_timezone_name }}"
+  when: current_timezone.stdout.strip() != base_timezone_name
   tags:
     - minimal
 
