@@ -13,6 +13,7 @@ base_apt_custom_repos:
       - main
       - non-free
       - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
   - name: debian-security
     types: [deb]
     uris:
@@ -23,6 +24,7 @@ base_apt_custom_repos:
       - main
       - non-free
       - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
 #   - name: docker
 #     types: [deb]
 #     uris:
