@@ -30,11 +30,6 @@
 - name: Manage default Debian repositories
   when: base_apt_remove_default_repos | bool
   block:
-    - name: Remove traditional /etc/apt/sources.list
-      ansible.builtin.file:
-        path: /etc/apt/sources.list
-        state: absent
-
     - name: Ensure /etc/apt/sources.list is an empty file (prevents apt warnings)
       ansible.builtin.copy:
         content: "# Managed by Ansible. Traditional sources.list is disabled.\n"
