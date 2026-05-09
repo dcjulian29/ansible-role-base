@@ -21,7 +21,9 @@
     path: /etc/localtime
     state: absent
   changed_when: false
-  when: not ansible_check_mode
+  when:
+    - not ansible_check_mode
+    - (ansible_facts['os_family'] | lower) == 'debian'
   tags:
     - minimal
 
