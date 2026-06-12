@@ -6,6 +6,8 @@
 - name: Reboot Host
   ansible.builtin.reboot:
     reboot_timeout: 600
+    connect_timeout: 10
+    test_command: uptime
 
 - name: Restart Journal
   ansible.builtin.service:
