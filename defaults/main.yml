@@ -1,7 +1,17 @@
 ---
 base_apt_arch_i386: false
 base_apt_arch_x64: true
-base_apt_custom_repos:
+base_apt_custom_repos: []
+#   - name: docker
+#     types: [deb]
+#     uris:
+#       - https://download.docker.com/linux/debian
+#     suites:
+#       - "{{ ansible_facts['distribution_release'] }}"
+#     components:
+#       - stable
+#     signed_by: https://download.docker.com/linux/debian/gpg
+base_apt_default_repos:
   - name: debian-base
     types: [deb]
     uris:
@@ -25,16 +35,6 @@ base_apt_custom_repos:
       - non-free
       - non-free-firmware
     signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
-#   - name: docker
-#     types: [deb]
-#     uris:
-#       - https://download.docker.com/linux/debian
-#     suites:
-#       - "{{ ansible_facts['distribution_release'] }}"
-#     components:
-#       - stable
-#     signed_by: https://download.docker.com/linux/debian/gpg
-base_apt_remove_default_repos: true
 base_certauth: []
   # - name: julian_root.crt
   #   cert: |
