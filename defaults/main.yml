@@ -45,7 +45,6 @@ base_certauth: []
   #     ijed2yh930Y8NSpLKkMi+s8/cwoBduqgaALfJy3RsfC6desjQYetlj1MjF8Sa87x
   #     Uh8z7LFU8uvomVUlxdcr98sAMLf0FQ==
   #     -----END CERTIFICATE-----
-base_debian_mirrors_allowed: true
 base_journal_compression: true
 base_journal_forward_console: false
 base_journal_forward_syslog: "{{ true if base_logging_rules | length > 0 else false }}"
