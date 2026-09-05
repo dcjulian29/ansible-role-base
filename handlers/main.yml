@@ -27,7 +27,7 @@
     name: rsyslog
     state: restarted
 
-- name: Restart timesyncd
+- name: Restart NTP
   ansible.builtin.service:
     name: "{{ base_ntp_service }}"
     enabled: true

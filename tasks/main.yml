@@ -85,6 +85,11 @@
   tags:
     - minimal
 
+- name: Ensure time synchronization is configured
+  ansible.builtin.include_tasks: ntp.yml
+  tags:
+    - minimal
+
 - name: Ensure logging configuration is present
   ansible.builtin.include_tasks: logging.yml
 

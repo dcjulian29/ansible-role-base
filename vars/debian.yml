@@ -1,6 +1,9 @@
 ---
 base_ca_path: /usr/local/share/ca-certificates
 base_journal_conf: /etc/systemd/journald.conf
+base_ntp_conf: /etc/chrony/chrony.conf
+base_ntp_service: chrony
+base_ntp_sources_dir: /etc/chrony/sources.d
 base_packages_distribution:
   - colordiff
   - gnupg
@@ -8,4 +11,3 @@ base_packages_distribution:
   - net-tools
   - nfs-common
   - python3-cryptography
-base_timesync_conf: /etc/systemd/timesyncd.conf

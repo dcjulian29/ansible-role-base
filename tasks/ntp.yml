@@ -1,0 +1,27 @@
+---
+- name: Ensure that the chrony package is present
+  ansible.builtin.package:
+    name: "{{ base_ntp_package }}"
+    state: present
+
+- name: Disable the time sources shipped with the distribution
+  ansible.builtin.replace:
+    path: "{{ base_ntp_conf }}"
+    regexp: '^(\s*(?:pool|server)\s+.*)$'
+    replace: '#\1'
+  notify: Restart NTP
+
+- name: Configure the time sources for this host
+  ansible.builtin.template:
+    src: chrony-sources.j2
+    dest: "{{ base_ntp_sources_dir }}/ansible.sources"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart NTP
+
+- name: Ensure that the time synchronization service is running
+  ansible.builtin.service:
+    name: "{{ base_ntp_service }}"
+    enabled: true
+    state: started

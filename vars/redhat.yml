@@ -1,6 +1,9 @@
 ---
 base_ca_path: /etc/pki/ca-trust/source/anchors
 base_journal_conf: /usr/lib/systemd/journald.conf
+base_ntp_conf: /etc/chrony.conf
+base_ntp_service: chronyd
+base_ntp_sources_dir: /etc/chrony.d
 base_packages_distribution:
   - sudo
   - vim-enhanced
@@ -12,5 +15,4 @@ base_packages_distribution:
   - net-tools
   - nano
   - epel-release
-base_timesync_conf: /lib/systemd/timesyncd.conf
 base_update_trust_cert: /bin/update-ca-trust

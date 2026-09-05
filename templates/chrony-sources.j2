@@ -1,0 +1,7 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+# {{ ansible_managed }}
+# Read via the sourcedir directive in {{ base_ntp_conf }}. Only server, pool
+# and peer directives are permitted in this directory.
+{% for host in base_ntp_servers %}
+server {{ host }} iburst
+{% endfor %}
