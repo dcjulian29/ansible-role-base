@@ -65,6 +65,7 @@ base_logging_rules: []
 #   port: 514
 #   facility: "auth,authpriv"
 #   level: "*"
+base_microcode_install: true
 base_ntp_servers:
   - 0.pool.ntp.org
   - 1.pool.ntp.org

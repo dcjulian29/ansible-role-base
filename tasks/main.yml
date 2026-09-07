@@ -68,6 +68,10 @@
   with_items: "{{ base_packages_additional }}"
   when: base_packages_additional | length > 0
 
+- name: Ensure the processor microcode is present
+  ansible.builtin.include_tasks: microcode.yml
+  when: base_microcode_install
+
 - name: Ensure custom profile scripts are present
   ansible.builtin.copy:
     content: "{{ item.script }}\n"

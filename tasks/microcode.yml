@@ -1,0 +1,22 @@
+---
+- name: Determine which microcode package this processor needs
+  ansible.builtin.set_fact:
+    base_microcode_package: >-
+      {{ base_microcode_intel if 'GenuineIntel' in ansible_facts['processor']
+         else base_microcode_amd if 'AuthenticAMD' in ansible_facts['processor']
+         else '' }}
+
+- name: Ensure the processor microcode is present
+  when:
+    - ansible_facts['virtualization_role'] | default('host') != 'guest'
+    - base_microcode_package | length > 0
+  block:
+    - name: Gather the installed packages
+      ansible.builtin.package_facts:
+
+    - name: Install the processor microcode
+      ansible.builtin.package:
+        name: "{{ base_microcode_package }}"
+        state: present
+      when: base_microcode_package not in ansible_facts['packages']
+      notify: Reboot Host

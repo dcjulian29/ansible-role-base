@@ -1,6 +1,8 @@
 ---
 base_ca_path: /etc/pki/ca-trust/source/anchors
 base_journal_conf: /usr/lib/systemd/journald.conf
+base_microcode_amd: linux-firmware
+base_microcode_intel: microcode_ctl
 base_ntp_conf: /etc/chrony.conf
 base_ntp_service: chronyd
 base_ntp_sources_dir: /etc/chrony.d

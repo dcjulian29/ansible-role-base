@@ -1,6 +1,8 @@
 ---
 base_ca_path: /usr/local/share/ca-certificates
 base_journal_conf: /etc/systemd/journald.conf
+base_microcode_amd: amd64-microcode
+base_microcode_intel: intel-microcode
 base_ntp_conf: /etc/chrony/chrony.conf
 base_ntp_service: chrony
 base_ntp_sources_dir: /etc/chrony/sources.d
