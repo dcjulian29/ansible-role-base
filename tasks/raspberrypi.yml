@@ -1,0 +1,76 @@
+---
+# Reached only when base_rpi_tuning is set, which the inventory does for the
+# hosts that are Raspberry Pis. Nothing here detects the board: a host declared
+# as one is taken at its word.
+
+# A Pi carries no real time clock unless one has been fitted, so it boots
+# believing it is whenever it last shut down. fake-hwclock keeps that guess
+# close, and letting chrony step by any amount lets it correct a wild one. This
+# matters wherever a certificate is checked before the clock is right -
+# corosync-qnetd authenticates over TLS, and a date from last month fails that
+# check before chrony has had a chance to fix it.
+- name: Install fake-hwclock
+  ansible.builtin.package:
+    name: fake-hwclock
+    state: present
+
+- name: Ensure fake-hwclock runs at boot and shutdown
+  ansible.builtin.service:
+    name: fake-hwclock
+    enabled: true
+
+- name: Ensure the chrony drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/chrony/conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Allow chrony to step the clock however far out it is
+  ansible.builtin.copy:
+    dest: /etc/chrony/conf.d/raspberrypi.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      {{ ansible_managed | comment }}
+      makestep 1 -1
+  notify: Restart NTP
+
+# Swap on a Pi is a file on the memory card. A machine with memory to spare
+# gains nothing from it and pays in writes.
+- name: Determine whether the swap file service is present
+  ansible.builtin.stat:
+    path: /etc/init.d/dphys-swapfile
+  register: base_rpi_swapfile
+
+- name: Turn the swap file off
+  ansible.builtin.service:
+    name: dphys-swapfile
+    enabled: false
+    state: stopped
+  when: base_rpi_swapfile.stat.exists
+
+# The Pi's watchdog restarts it when the kernel stops answering. A machine whose
+# whole purpose is to be reachable once something else has failed should not be
+# able to hang quietly instead.
+- name: Ensure the systemd drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/system.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Enable the hardware watchdog
+  ansible.builtin.copy:
+    dest: /etc/systemd/system.conf.d/watchdog.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      {{ ansible_managed | comment }}
+      [Manager]
+      RuntimeWatchdogSec={{ base_rpi_watchdog_seconds }}
+  notify: Reexecute systemd

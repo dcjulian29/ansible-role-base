@@ -9,6 +9,11 @@
     connect_timeout: 10
     test_command: uptime
 
+- name: Reexecute systemd
+  ansible.builtin.command:
+    cmd: systemctl daemon-reexec
+  changed_when: true
+
 - name: Restart Journal
   ansible.builtin.service:
     name: "{{ item }}"

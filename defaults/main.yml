@@ -1,6 +1,6 @@
 ---
 base_apt_arch_i386: false
-base_apt_arch_x64: true
+base_apt_arch_x64: "{{ ansible_facts['architecture'] == 'x86_64' }}"
 base_apt_custom_repos: []
 #   - name: docker
 #     types: [deb]
@@ -66,6 +66,27 @@ base_logging_rules: []
 #   facility: "auth,authpriv"
 #   level: "*"
 base_microcode_install: true
+# The archive a Raspberry Pi needs alongside Debian's, for raspi-firmware,
+# rpi-eeprom and the kernel packages. Kept apart from base_apt_custom_repos so
+# that adding it never displaces whatever repositories a group already sets -
+# group variables replace rather than merge. Applied only when base_rpi_tuning
+# is on, and overridable like anything else.
+base_rpi_repos:
+  - name: raspi
+    types: [deb]
+    uris:
+      - http://archive.raspberrypi.com/debian/
+    suites:
+      - "{{ ansible_facts['distribution_release'] }}"
+    components:
+      - main
+    signed_by: /usr/share/keyrings/raspberrypi-archive-keyring.gpg
+# Tuning that only makes sense on a Raspberry Pi: the missing real time clock,
+# swap on the memory card, and the hardware watchdog. Off unless the inventory
+# says the host is one.
+base_rpi_tuning: false
+# How long the kernel may go without answering before the watchdog restarts it.
+base_rpi_watchdog_seconds: 30
 base_ntp_servers:
   - 0.pool.ntp.org
   - 1.pool.ntp.org

@@ -7,7 +7,7 @@
     line: amd64
     mode: '0644'
     owner: root
-    state: "{{ 'present' if base_apt_arch_x64 else 'absent' }}"
+    state: "{{ 'present' if base_apt_arch_x64 | bool else 'absent' }}"
 
 - name: Ensure i386 architecture is configured appropriately
   ansible.builtin.lineinfile:
@@ -41,7 +41,9 @@
     architectures: "{{ item.architectures | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     enabled: "{{ item.enabled | default('yes') }}"
-  loop: "{{ base_apt_default_repos + base_apt_custom_repos }}"
+  loop: >-
+    {{ base_apt_default_repos + base_apt_custom_repos
+       + (base_rpi_repos if base_rpi_tuning else []) }}
   loop_control:
     label: "{{ item.name }}"
 

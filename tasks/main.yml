@@ -97,6 +97,10 @@
 - name: Ensure logging configuration is present
   ansible.builtin.include_tasks: logging.yml
 
+- name: Include tasks for a Raspberry Pi
+  ansible.builtin.include_tasks: raspberrypi.yml
+  when: base_rpi_tuning
+
 - name: Include tasks for virtualized guests
   ansible.builtin.include_tasks: hypervisor.yml
   when:
