@@ -66,6 +66,22 @@ base_logging_rules: []
 #   facility: "auth,authpriv"
 #   level: "*"
 base_microcode_install: true
+base_ntp_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+base_packages_additional: []
+base_packages_distribution: []
+base_profile_scripts: []
+  # - name: myaliases.sh
+  #   script: |
+  #     if [ "$TERM" == "dumb" ]; then return 0; fi
+
+  #     alias cp='cp -iv'
+  #     alias mv='mv -iv'
+  #     alias mkdir='mkdir -pv'
+  #     alias dir='ls -lah'
 # The archive a Raspberry Pi needs alongside Debian's, for raspi-firmware,
 # rpi-eeprom and the kernel packages. Kept apart from base_apt_custom_repos so
 # that adding it never displaces whatever repositories a group already sets -
@@ -87,22 +103,6 @@ base_rpi_repos:
 base_rpi_tuning: false
 # How long the kernel may go without answering before the watchdog restarts it.
 base_rpi_watchdog_seconds: 30
-base_ntp_servers:
-  - 0.pool.ntp.org
-  - 1.pool.ntp.org
-  - 2.pool.ntp.org
-  - 3.pool.ntp.org
-base_packages_additional: []
-base_packages_distribution: []
-base_profile_scripts: []
-  # - name: myaliases.sh
-  #   script: |
-  #     if [ "$TERM" == "dumb" ]; then return 0; fi
-
-  #     alias cp='cp -iv'
-  #     alias mv='mv -iv'
-  #     alias mkdir='mkdir -pv'
-  #     alias dir='ls -lah'
 base_selinux_mode: disabled    # enforcing, permissive, disabled  !! Only RHEL distros !!
 base_ssh_client_alive_interval: 300
 base_ssh_challenge_response_auth: false
