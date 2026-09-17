@@ -1,4 +1,13 @@
 ---
+# deb822_repository needs this, and the tasks below empty sources.list and remove
+# debian.sources before it is reached - so a host that lacks it would have no
+# repository left to install it from. It goes first, while the repositories the
+# image shipped with are still intact.
+- name: Ensure the deb822 repository module has what it needs
+  ansible.builtin.apt:
+    name: python3-debian
+    state: present
+
 - name: Ensure x64 architecture is configured appropriately
   ansible.builtin.lineinfile:
     create: true
