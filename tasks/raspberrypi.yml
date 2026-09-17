@@ -34,7 +34,7 @@
     group: root
     mode: "0644"
     content: |
-      {{ ansible_managed | comment }}
+      # Managed by Ansible
       makestep 1 -1
   notify: Restart NTP
 
@@ -70,7 +70,7 @@
     group: root
     mode: "0644"
     content: |
-      {{ ansible_managed | comment }}
+      # Managed by Ansible
       [Manager]
       RuntimeWatchdogSec={{ base_rpi_watchdog_seconds }}
   notify: Reexecute systemd
