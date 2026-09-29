@@ -114,6 +114,16 @@
     value: "{{ item.value }}"
     state: present
     reload: true
+    sysctl_file: /etc/sysctl.d/99-base.conf
+  loop: "{{ base_sysctl }}"
+  when: base_sysctl | length > 0
+
+- name: Ensure sysctl settings are not duplicated in the legacy file
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    state: absent
+    reload: false
+    sysctl_file: /etc/sysctl.conf
   loop: "{{ base_sysctl }}"
   when: base_sysctl | length > 0
 
