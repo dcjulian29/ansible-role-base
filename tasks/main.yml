@@ -49,6 +49,15 @@
     - base_certauth | length > 0
     - not ansible_check_mode   # (Bug ansible/ansible#65687)
 
+# Register the CA files now rather than at the end of the play. A handler is
+# dropped when the play fails, and the copy above reports no change on the
+# next run, so a failed first run would leave the files on disk but never in
+# the trust store (curl then rejects internal services, e.g. ACME).
+- name: Ensure trusted certificate authorities are updated
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - minimal
+
 - name: Include package manager specific tasks
   ansible.builtin.include_tasks: "pkg_{{ ansible_facts['pkg_mgr'] | lower }}.yml"
   tags:
